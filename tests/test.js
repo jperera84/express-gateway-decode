@@ -1,4 +1,4 @@
-var SimpleCrypto = require("simple-crypto-js").default;
+const SimpleCrypto = require("simple-crypto-js").default;
 
 const simpleCrypto = new SimpleCrypto('5F33468BECE4BFBCCACF4F2A9C112');
 
@@ -6,13 +6,13 @@ const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMSIsImlhdCI6
 
 const cryptic  = simpleCrypto.encrypt(token);
 
-console.log(cryptic);
+console.log(escape(cryptic));
 
 const tokenHeader = `Bearer ${cryptic}`;
 const tokenArray = tokenHeader.split(' ');
 const tokenCifer = tokenArray[1];
 
-const tokenAux = simpleCrypto.decrypt(tokenCifer);
+const tokenAux = simpleCrypto.decrypt(unescape(tokenCifer));
 //console.log(tokenAux);
 
 if(tokenAux === token){
