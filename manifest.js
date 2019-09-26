@@ -1,7 +1,7 @@
 module.exports = {
     version: '1.0.0',
     init: function (pluginContext) {
-      pluginContext.registerPolicy(require('./decode-auth'));
+      pluginContext.registerPolicy(require('./policies/decode-auth'));
   
       pluginContext.eventBus.on('hot-reload', function ({ type, newConfig }) {
         console.log('hot-reload', type, newConfig);
