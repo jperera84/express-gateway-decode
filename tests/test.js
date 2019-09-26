@@ -2,17 +2,17 @@ const SimpleCrypto = require("simple-crypto-js").default;
 
 const simpleCrypto = new SimpleCrypto('5F33468BECE4BFBCCACF4F2A9C112');
 
-const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMSIsImlhdCI6MTU2OTUxODgxMH0.lLpUmzchf6MtpUcLZR8r2S15rPcgFumZo2JGcjmVGM36LrqOqgXYOmipF2TwKPgTDRoQhRZ1TefQYI-fCimZs04ivf9gXtkJXhqCcF2saR0CbOtqrphnxeFjnDHwg_cGI_uf-dj0QRyeqaKwrtX76-SytZ9H3AktTn3wSZiMLEPGHUp5STdho8wHhCWmFeuSuh_XF9BKkTGN8qSNXaf-pdUKQyLFc4g8yTjic-KbZJy741zHLYXbqCTUsgWkKtKkaTlvBl9WFSZeqoC0x7ubh0JI8dE6Oop4E78uX5bOIY1PXVn5-xdOu05buLQz4gf4YAOlrFMhBzEiExazC9G_HA";
+const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMSIsImlhdCI6MTU2OTUyMDMwM30.CbaEKXzZH1dnAHff2I0o2q7eEkyGimdptjNPW8PwzIqiRLR6mK8kY43O0s7kj25eoVB9o-mXTq9FJ1q2v--RwQarTPh6J2Oal1st-xeUkYPuHsuLc7P6kV4GGwe_55AJmLfS_mjPtCXS6hYmhoy1Cfo7pPCVg-LszhMDH2d_I5MWQe8npiFvDuxBsYQDA4FBDsebJlejKHW8g6JPBer4Y4F2Bb_Nt1Q3lCpS-TeJpPUvZgHRF2PeLnwJdNZO8ndLbbEUafobnqt7P9CSqWyIR9ERCZA-XR-Ig1JFaGyCvdsz_bBlf2Z3bgxaoZoo8vjjUqERiPKCROxqYFVqvPn1dQ";
 
 const cryptic  = simpleCrypto.encrypt(token);
 
-console.log(escape(cryptic));
+console.log(escape(cryptic).toString());
 
 const tokenHeader = `Bearer ${cryptic}`;
 const tokenArray = tokenHeader.split(' ');
 const tokenCifer = tokenArray[1];
 
-const tokenAux = simpleCrypto.decrypt(unescape(tokenCifer));
+const tokenAux = simpleCrypto.decrypt(unescape(tokenCifer).toString());
 //console.log(tokenAux);
 
 if(tokenAux === token){
