@@ -1,22 +1,20 @@
-const SimpleCrypto = require("simple-crypto-js").default;
+const jwt = require("jsonwebtoken");
 
-const simpleCrypto = new SimpleCrypto('5F33468BECE4BFBCCACF4F2A9C112');
+//const simpleCrypto = new SimpleCrypto('5F33468BECE4BFBCCACF4F2A9C112');
 
-const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMSIsImlhdCI6MTU2OTUyMDMwM30.CbaEKXzZH1dnAHff2I0o2q7eEkyGimdptjNPW8PwzIqiRLR6mK8kY43O0s7kj25eoVB9o-mXTq9FJ1q2v--RwQarTPh6J2Oal1st-xeUkYPuHsuLc7P6kV4GGwe_55AJmLfS_mjPtCXS6hYmhoy1Cfo7pPCVg-LszhMDH2d_I5MWQe8npiFvDuxBsYQDA4FBDsebJlejKHW8g6JPBer4Y4F2Bb_Nt1Q3lCpS-TeJpPUvZgHRF2PeLnwJdNZO8ndLbbEUafobnqt7P9CSqWyIR9ERCZA-XR-Ig1JFaGyCvdsz_bBlf2Z3bgxaoZoo8vjjUqERiPKCROxqYFVqvPn1dQ";
+const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMSIsImlhdCI6MTU2OTg0NDk1MiwiZXhwIjoxNTcwMTA0MTUyfQ.Ad_BX2RwDgOQwsJhPbTRBvUzTrpbwtwg16I6dEXVJbEDrP_RI5mcE11rpzT7LhO-WBjy0MvzQZpPqCKDptbJCReokrar7QnUbf9RbX_NLR-XrIGhF6TnQsA-ndMZM7QtpLWtxMNstJlNvQ1EQXZELfRt8bQwgTFAwT2WICKuWboRuaW6IX_WL5_WzRo49GkwEtkYtfr00DWX_0lmeN734aFSMFqDjz5x99fhkDpsnVH4tiyWd4fEPZ7bcvmzqZlKrfXsGylH1DYZ_ObGQObrvhT0-5blFEy9FBt9jp4RuWNA4WYuenWIEwb9yhkuu0BPrV4KYEfimJmGJ7KVWbHTLQ";
 
-const cryptic  = simpleCrypto.encrypt(token);
-
-console.log(escape(cryptic).toString());
-
-const tokenHeader = `Bearer ${cryptic}`;
-const tokenArray = tokenHeader.split(' ');
-const tokenCifer = tokenArray[1];
-
-const tokenAux = simpleCrypto.decrypt(unescape(tokenCifer).toString());
-//console.log(tokenAux);
-
-if(tokenAux === token){
-    console.log("Equals");
-} else {
-    console.log("Not Equals");
-}
+jwt.sign({ token: token }, "5F33468BECE4BFBCCACF4F2A9C112", { algorithm: 'HS256', expiresIn: 3600 }, function(err, tokenRet) {
+    if(err){
+        console.log(err);
+        return;
+    }
+    const signature =  tokenRet;
+    console.log(signature);
+    const decoded = jwt.verify(signature, "5F33468BECE4BFBCCACF4F2A9C112", { algorithm: 'HS256'});
+    if( decoded.token === token) {
+        console.log("Equal");
+    } else {
+        console.log("Not Equal");
+    }
+});
