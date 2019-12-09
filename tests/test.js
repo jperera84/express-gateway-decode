@@ -1,28 +1,21 @@
 const jwt = require("jsonwebtoken");
+const fs = require('fs');
 
-//const simpleCrypto = new SimpleCrypto('5F33468BECE4BFBCCACF4F2A9C112');
+const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTU2Mjg1NzkwIiwiY2xpZW50X2lkIjoiNUYzMzQ2OEJFQ0U0QkZCQ0NBQ0Y0RjJBOUMxMTIiLCJpYXQiOjE1NzU5MDgzMDYsImV4cCI6MTU3NTkzNzEwNn0.WPBPVa5o8JX_mWWpLX8poFuaS0exVQE6VyJtRyh1Lm2ixMi8v2hewoyOPHfCt0vv_FDFAYET9QXhWriML3R4vuBNSfDYyWAhr3Ot6cthNnhQkWSdkU5PU3kDVofxU0eW0k07XagBMQwQcUJ419cbgUla778qH2JyS45qamhSgfh2ZFtbvix6T4aDLv1_Yy2qutbWered5Nqvrdj34CowMaqsg43qQ6fd_EunCYAa-Tkl4miFZn7pp_833_bRAkX09aU7Gvjg9e2vxHWQvPHpnVBjLGVQEdnek9u715QMbYcsv9c786SVX-Qbl97T0Mf3OxoUaeDoRMN0mgszImpPeg";
 
-const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMSIsImlhdCI6MTU2OTg0NDk1MiwiZXhwIjoxNTcwMTA0MTUyfQ.Ad_BX2RwDgOQwsJhPbTRBvUzTrpbwtwg16I6dEXVJbEDrP_RI5mcE11rpzT7LhO-WBjy0MvzQZpPqCKDptbJCReokrar7QnUbf9RbX_NLR-XrIGhF6TnQsA-ndMZM7QtpLWtxMNstJlNvQ1EQXZELfRt8bQwgTFAwT2WICKuWboRuaW6IX_WL5_WzRo49GkwEtkYtfr00DWX_0lmeN734aFSMFqDjz5x99fhkDpsnVH4tiyWd4fEPZ7bcvmzqZlKrfXsGylH1DYZ_ObGQObrvhT0-5blFEy9FBt9jp4RuWNA4WYuenWIEwb9yhkuu0BPrV4KYEfimJmGJ7KVWbHTLQ";
-
-jwt.sign({ token: token }, "5F33468BECE4BFBCCACF4F2A9C112", { algorithm: 'HS256', expiresIn: 60 }, function(err, tokenRet) {
-    if(err){
-        console.log(err);
-        return;
-    }
-    const signature =  tokenRet;
-    console.log(signature);
-    setTimeout(() => {
-        try{
-            const decoded = jwt.verify(signature, "5F33468BECE4BFBCCACF4F2A9C112", { algorithm: 'HS256'});
-            console.log(decoded);
-            if( decoded.token === token) {
-                console.log("Equal");
-            } else {
-                console.log("Not Equal");
-            }
-        } catch(error) {
-            console.log("unauthorized");
+try{
+    fs.readFile('./key.pem', 'utf8', function(err, contents) {
+        console.log(contents);
+        const decoded = jwt.verify(token, contents, { algorithm: 'HS256'});
+        console.log(decoded);
+        if( decoded.token === token) {
+            console.log("Equal");
+        } else {
+            console.log("Not Equal");
         }
-    }, 5001);
+    });
     
-});
+} catch(error) {
+    console.log(error);
+    console.log("unauthorized");
+}

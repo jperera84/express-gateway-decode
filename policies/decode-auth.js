@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+const fs = require('fs');
+
 module.exports = {
     name: 'decode',
     policy: (actionParams) => {
@@ -9,9 +11,12 @@ module.exports = {
           const tokenArray = tokenHeader.split(' ');
           const tokenCifer = tokenArray[1];
           try{
-            const decoded = jwt.verify(tokenCifer, "5F33468BECE4BFBCCACF4F2A9C112", { algorithm: 'HS256'});
-            req.headers.authorization = `Bearer ${decoded.token}`;
-            next();
+            fs.readFile('./key.pem', 'utf8', function(err, contents) {
+              console.log(contents);
+              const decoded = jwt.verify(tokenCifer, contents, { algorithm: 'HS256'});
+              req.headers.clientid = decoded.client_id;
+              next();
+            });
           } catch(error){
             return res.status(401).send("Unauthorized");
           }
