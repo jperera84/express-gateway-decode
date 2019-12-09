@@ -13,7 +13,6 @@ module.exports = {
           const client_id = actionParams.clientId;
           try{
             fs.readFile('./key.pem', 'utf8', function(err, contents) {
-              console.log(contents);
               const decoded = jwt.verify(tokenCifer, contents, { algorithm: 'HS256'});
               if(client_id === decoded.client_id) {
                 req.headers.clientid = decoded.client_id;
